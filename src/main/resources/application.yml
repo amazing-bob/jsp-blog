@@ -1,0 +1,24 @@
+server:
+  port: 8080
+  servlet:
+    jsp:
+      init-parameters:
+        development: true
+
+spring:
+  datasource: # H2-DB
+    hikari:
+#      jdbc-url: jdbc:h2:./data/h2/testdb #./ Project root
+      jdbc-url: jdbc:h2:tcp://localhost:9092/./data/h2/testdb
+      driver-class-name: org.h2.Driver
+      username: sh
+      password:
+
+  mvc:
+    view: # JSP
+      prefix: /WEB-INF/views/  # src/main/webapp/WEB-INF/views/
+      suffix: .jsp
+
+  mybatis:
+    mapper-locations: classpath:/mapper/**/*Mapper.xml
+#    type-aliases-package: com.example.jspblog.dto
