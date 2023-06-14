@@ -61,7 +61,7 @@
                             <td>${post.title}</td>
                             <td>${post.writer.name}</td>
                             <td>${post.created}</td>
-                            <td>like:${post.likeCount} | 댓글: 0</td>
+                            <td>like:${post.likeCount} | 댓글: ${post.commentCount}</td>
                             <td>
                                 <button class="small">수정</button>
                                 <button class="small">삭제</button>

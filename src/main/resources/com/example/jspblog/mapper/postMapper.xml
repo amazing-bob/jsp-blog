@@ -11,6 +11,7 @@
         <id property="title" column="title"/>
         <id property="content" column="content"/>
         <id property="likeCount" column="like_count"/>
+        <id property="commentCount" column="comment_count"/>
         <id property="created" column="created"/>
         <id property="updated" column="updated"/>
         <id property="deleted" column="deleted"/>
@@ -24,11 +25,13 @@
 
     <select id="selectAll" resultMap="post">
         SELECT
-            P.id, P.member_id, P.title, P.content, P.like_count, P.created, P.updated, P.deleted,
-            M.name,
-            M.email
-        FROM post p, member m
-        WHERE p.member_id = m.id
+            p.id, p.member_id, p.title, p.content, p.like_count, p.created, p.updated, p.deleted,
+            m.name,
+            m.email,
+            count(c.id) as comment_count
+        FROM post p inner join member m on p.member_id = m.id
+                    left join comment c on p.id = c.post_id
+        group by p.id
         ORDER BY p.id DESC;
     </select>
 
