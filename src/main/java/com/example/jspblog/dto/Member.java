@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class User {
+public class Member {
     private long id;
     private String email;
     private String password;

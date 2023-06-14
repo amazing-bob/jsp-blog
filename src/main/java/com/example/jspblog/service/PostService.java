@@ -1,7 +1,7 @@
 package com.example.jspblog.service;
 
-import com.example.jspblog.mapper.PostMapper;
 import com.example.jspblog.dto.Post;
+import com.example.jspblog.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

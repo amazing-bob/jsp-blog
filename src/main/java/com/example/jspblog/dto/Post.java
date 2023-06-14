@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class Post {
     private long id;
     private long memberId;
+    private Member writer;
     private String title;
     private String content;
     private int likeCount;

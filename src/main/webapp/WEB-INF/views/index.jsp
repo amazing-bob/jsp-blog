@@ -19,7 +19,7 @@
 
     <!-- Header -->
     <header id="header">
-        <a href="index.html" class="logo"><c:url value=".."/></a>
+        <a href="index.html" class="logo"></a>
     </header>
 
     <!-- Nav -->
@@ -55,13 +55,13 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="post" items="${postList}" >
+                    <c:forEach var="post" items="${posts}" >
                         <tr>
                             <td>${post.id}</td>
                             <td>${post.title}</td>
-                            <td>${post.memberId}</td>
+                            <td>${post.writer.name}</td>
                             <td>${post.created}</td>
-                            <td>like:${post.likeCount} | 댓글:0</td>
+                            <td>like:${post.likeCount} | 댓글: 0</td>
                             <td>
                                 <button class="small">수정</button>
                                 <button class="small">삭제</button>

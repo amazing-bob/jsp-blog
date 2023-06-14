@@ -21,11 +21,8 @@ public class ViewController {
     public String home(Model model) {
         log.info("== PageController.home() ");
 
-        List<Post> list = postService.getPostList();
-        log.info("list : {}" + list);
         model.addAttribute("blogTitle", "Hello, World! BLOG");
-//        model.addAttribute("postList", postService.getPostList());
-        model.addAttribute("postList", list);
+        model.addAttribute("posts", postService.getPostList());
 
         return "index";
     }
