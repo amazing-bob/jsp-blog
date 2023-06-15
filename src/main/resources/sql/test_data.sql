@@ -10,6 +10,7 @@ values (1, '김상헌', 'sh@gmail.com', 'pw', now(), null, null),
        (2, '정진영', 'jin@gmail.com', 'pass', now(), null, null),
        (3, '유찬', 'chan@gmail.com', 'pass', now(), null, null),
        (4, '이담', 'dam@gmail.com', 'pass', now(), null, null);
+alter table MEMBER alter column id restart with 5;
 
 
 insert into post (id, member_id, title, content, like_count, created, updated, deleted)
@@ -88,7 +89,7 @@ values
     (72, 4, 'title72', 'content	72', 3, now(), null, null),
     (73, 3, 'title73', 'content	73', 2, now(), null, null),
     (74, 2, 'title74', 'content74', 2, now(), null, null);
-
+alter table post alter column id restart with 75;
 
 insert into COMMENT (id, PARENT_ID, POST_ID, MEMBER_ID, CONTENT, CREATED)
 values
@@ -101,6 +102,7 @@ values
     (7, 1, 74, 1, 'comment5', now()),
     (8, 8, 73, 1, 'comment5', now()),
     (9, 9, 73, 1, 'comment6', now());
+alter table comment alter column id restart with 10;
 
 commit;
 

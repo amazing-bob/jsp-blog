@@ -45,9 +45,9 @@
             <header class="major">
                 <h1>POSTS LIST!!!</h1>
             </header>
-            <h2>Table</h2>
-
-            <h3>Default</h3>
+            <h2>
+                <button id="writeBtn" class="primary large">글쓰기</button>
+            </h2>
             <div class="table-wrapper">
                 <table>
                     <thead>
@@ -150,6 +150,19 @@
 <script src="/assets/js/breakpoints.min.js"></script>
 <script src="/assets/js/util.js"></script>
 <script src="/assets/js/main.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#writeBtn").click(function () {
+
+            let isValid = true;
+            if (!isValid) { //TODO: 로그인 벨리데이션 로직 필요
+                alert("로그인이 필요합니다.");
+                return;
+            }
+            location.href = "/posts/write";
+        });
+    });
+</script>
 
 </body>
 </html>

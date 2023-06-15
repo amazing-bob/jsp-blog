@@ -10,4 +10,6 @@ public interface PostMapper {
     List<Post> selectAll();
 
     Post selectById(long id);
+
+    void insert(Post post);
 }

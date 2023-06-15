@@ -48,4 +48,10 @@
         group by p.id
     </select>
 
+
+    <insert id="insert" parameterType="com.example.jspblog.dto.Post" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        INSERT INTO post(member_id, title, content, like_count, created)
+        VALUES(#{memberId}, #{title}, #{content}, 0, now())
+    </insert>
+
 </mapper>

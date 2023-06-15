@@ -18,6 +18,9 @@ spring:
     view: # JSP
       prefix: /WEB-INF/views/  # src/main/webapp/WEB-INF/views/
       suffix: .jsp
+#    hiddenmethod:
+#      filter:
+#        enabled=true: true
 
   mybatis:
     mapper-locations: classpath:/mapper/**/*Mapper.xml
@@ -26,3 +29,4 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     default-statement-timeout: 30
+

@@ -29,4 +29,14 @@ class PostMapperTest {
         System.out.println("post = " + post);
     }
 
+    @Test
+    void isnert() {
+
+        Post post = postMapper.selectById(1);
+        post.setId(0);
+
+        postMapper.insert(post);
+        System.out.println("post = " + post);
+    }
+
 }

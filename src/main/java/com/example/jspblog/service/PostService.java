@@ -21,7 +21,20 @@ public class PostService {
 
     public Post getPost(long id) {
         Post post = postMapper.selectById(id);
-        post.setComments(commentService.getComments(id));
+        if (post != null) {
+            post.setComments(commentService.getComments(id));
+        }
+
+        return post;
+    }
+
+    /**
+     * 포스팅하기
+     * @param post
+     * @return
+     */
+    public Post writePost(Post post) {
+        postMapper.insert(post);
         return post;
     }
 }
