@@ -10,7 +10,7 @@
     <%--    <link rel="stylesheet" href="<c:url value="/assets/css/main.css"/>" />--%>
     <link rel="stylesheet" href="/assets/css/main.css" />
     <noscript><link rel="stylesheet" href="/assets/css/noscript.css" /></noscript>
-    <title>게시판 목록</title>
+    <title>포스팅 보기</title>
 </head>
 <body class="is-preload">
 
@@ -55,7 +55,7 @@
                 <span class="byline">${post.writer.name} | ${post.created}</span>
             </header>
             <hr />
-            <p>${post.content}asdasdasdaㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㅇㄹㄴㅇㄹㄴㅇㄹㅇㄴㄹㄴ</p>
+            <p style="white-space: pre-wrap">${post.content}</p>
 
         </section>
 
