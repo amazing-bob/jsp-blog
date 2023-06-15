@@ -11,10 +11,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostService {
 
+    private final CommentService commentService;
     private final PostMapper postMapper;
 
     public List<Post> getPostList() {
 
         return postMapper.selectAll();
+    }
+
+    public Post getPost(long id) {
+        Post post = postMapper.selectById(id);
+        post.setComments(commentService.getComments(id));
+        return post;
     }
 }

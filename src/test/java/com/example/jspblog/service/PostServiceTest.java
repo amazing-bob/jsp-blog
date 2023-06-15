@@ -25,20 +25,9 @@ class PostServiceTest {
     @MockBean
     private PostMapper postMapper;
 
-    @BeforeEach
-    void setUp() {
-        //FIXME: @MockBean postMapper mock 바인딩하는 부분 수정 필요
-        postMapper = new PostMapper() {
-            @Override
-            public List<Post> selectAll() {
-                List<Post> list = new ArrayList<>();
-                return list;
-            }
-        };
-    }
-
     @Test
     void getPostList() {
+        //FIXME: @MockBean postMapper mock 바인딩하는 부분 수정 필요
         List<Post> postList = postService.getPostList();
         System.out.println("postList = " + postList);
         assertEquals(3, postList.size());

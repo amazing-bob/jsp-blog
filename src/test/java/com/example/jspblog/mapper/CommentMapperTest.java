@@ -1,32 +1,27 @@
 package com.example.jspblog.mapper;
 
-import com.example.jspblog.dto.Post;
+import com.example.jspblog.dto.Comment;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class PostMapperTest {
+class CommentMapperTest {
 
     @Autowired
-    private PostMapper postMapper;
-
-
-    @Test
-    void selectAll() {
-        List<Post> postList = postMapper.selectAll();
-        System.out.println("postList = " + postList);
-    }
+    private CommentMapper commentMapper;
 
     @Test
-    void selectById() {
-        long id = 1;
-        Post post = postMapper.selectById(id);
-        System.out.println("post = " + post);
-    }
+    void selectListByePostId() {
+        List<Comment> comments = commentMapper.selectListByePostId(74);
+        comments.forEach(System.out::println);
 
+    }
 }

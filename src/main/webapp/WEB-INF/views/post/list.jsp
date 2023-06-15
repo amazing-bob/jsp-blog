@@ -19,7 +19,7 @@
 
     <!-- Header -->
     <header id="header">
-        <a href="index.html" class="logo"></a>
+        <a href="index.html" class="logo">Edgar's Blog</a>
     </header>
 
     <!-- Nav -->
@@ -43,7 +43,7 @@
         <!-- Post -->
         <section class="post">
             <header class="major">
-                <h1>INDEX LIST</h1>
+                <h1>POSTS LIST!!!</h1>
             </header>
             <h2>Table</h2>
 
