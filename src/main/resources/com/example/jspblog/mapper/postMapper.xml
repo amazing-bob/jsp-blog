@@ -54,4 +54,10 @@
         VALUES(#{memberId}, #{title}, #{content}, 0, now())
     </insert>
 
+    <update id="update" parameterType="com.example.jspblog.dto.Post">
+        UPDATE post
+        SET title = #{title}, content = #{content}, updated = now()
+        WHERE id = #{id}
+    </update>
+
 </mapper>

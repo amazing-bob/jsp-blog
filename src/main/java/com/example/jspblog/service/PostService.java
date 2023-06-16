@@ -37,4 +37,14 @@ public class PostService {
         postMapper.insert(post);
         return post;
     }
+
+    /**
+     * 게시글 수정
+     * @param post
+     * @return
+     */
+    public Post modifyPost(Post post) {
+        postMapper.update(post);
+        return post;
+    }
 }

@@ -40,11 +40,21 @@ public class PostController {
         return "post/writing";
     }
 
+
     @PostMapping(value = "", produces = "application/json")
     @ResponseBody
     public ResponseEntity<Post> writePost(@RequestBody Post post) {
-        log.info("== PostController.write()  post : {}" + post);
+        log.info("== PostController.writePost()  post : {}" + post);
         Post writedPost = postService.writePost(post);
+
+        return ResponseEntity.ok().body(writedPost);
+    }
+
+    @PutMapping(value = "", produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<Post> modifyPost(@RequestBody Post post) {
+        log.info("== PostController.modifyPost()  post : {}" + post);
+        Post writedPost = postService.modifyPost(post);
 
         return ResponseEntity.ok().body(writedPost);
     }
@@ -59,5 +69,12 @@ public class PostController {
     }
 
 
+    @GetMapping("/{postId}/modify")
+    public String modify(@PathVariable long postId, Model model) {
+        log.info("== PostController.modify()  postId : {}" + postId);
 
+        model.addAttribute("post", postService.getPost(postId));
+
+        return "post/writing";
+    }
 }

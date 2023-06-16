@@ -12,4 +12,6 @@ public interface PostMapper {
     Post selectById(long id);
 
     void insert(Post post);
+
+    void update(Post post);
 }

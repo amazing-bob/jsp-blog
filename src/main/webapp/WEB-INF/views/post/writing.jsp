@@ -56,12 +56,13 @@
             <form method="post" action="#">
                 <div class="row gtr-uniform">
                     <div class="col-12 col-12-xsmall">
-                        <input type="text" name="postTitleInputText" id="postTitleInputText" value="" placeholder="제목" />
+                        <input type="hidden" name="postIdHidden" id="postIdHidden" value="${post.id}"/>
+                        <input type="text" name="postTitleInputText" id="postTitleInputText" value="${post.title}" placeholder="제목" />
                     </div>
 
                     <!-- Break -->
                     <div class="col-12">
-                        <textarea name="demo-message" id="postConentTextarea" placeholder="포스팅내용 입력" rows="15"></textarea>
+                        <textarea name="demo-message" id="postConentTextarea" placeholder="포스팅내용 입력" rows="15">${post.content}</textarea>
                     </div>
                     <!-- Break -->
                     <div class="col-12">
@@ -100,6 +101,7 @@
 <script>
     $(document).ready(function () {
         $("#postWriteBtn").click(function () {
+            var postId = $("#postIdHidden").val();
             var postTitle = $("#postTitleInputText").val();
             var postContent = $("#postConentTextarea").val();
 
@@ -115,28 +117,35 @@
                 return false;
             }
 
+            var httpMethod = "POST";
+            var param = {
+                "title" : postTitle,
+                "content" : postContent
+            };
+            if (postId > 0) {
+                httpMethod = "PUT";
+                param.id = postId;
+            }
+
+
             $.ajax({
                 url: "/posts",
-                type: "POST",
+                type: httpMethod,
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                data: JSON.stringify({
-                    title: postTitle,
-                    content: postContent,
-                    memberId: 1 // TODO: 로그인후 변경 할것
-                }),
+                data: JSON.stringify(param),
                 success: function (data) {
                     console.log(data);
                     // data null check
                     if(data.id > 0){
-                        alert("글쓰기 성공");
+                        alert("성공");
                         location.href = "/posts/"+data.id;
                     }else{
-                        alert("글쓰기 실패");
+                        alert("실패");
                     }
                 },
                 error: function (e) {
-                    alert("글쓰기 실패");
+                    alert("실패");
                 }
             });
         });
