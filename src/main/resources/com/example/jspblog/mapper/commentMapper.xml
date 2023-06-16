@@ -22,6 +22,7 @@
         </association>
     </resultMap>
 
+
     <select id="selectListByePostId" parameterType="Long" resultMap="comment">
         SELECT
             c.id,
@@ -40,5 +41,35 @@
         ORDER BY c.parent_id, c.id ASC;
     </select>
 
+
+    <select id="selectById" parameterType="Long" resultMap="comment">
+        SELECT
+            c.id,
+            c.parent_id,
+            c.post_id,
+            c.member_id,
+            c.content,
+            c.created,
+            c.updated,
+            c.deleted,
+            m.email,
+            m.name
+        FROM comment c INNER JOIN member m
+        ON c.member_id = m.id
+        WHERE c.id = #{id}
+    </select>
+
+
+    <insert id="insert" parameterType="com.example.jspblog.dto.Comment" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        INSERT INTO comment(parent_id, post_id, member_id, content, created)
+        VALUES(#{parentId}, #{postId}, #{memberId}, #{content}, now())
+    </insert>
+
+
+    <update id="updateParentIdById" parameterType="com.example.jspblog.dto.Comment">
+        UPDATE comment
+        SET parent_id = #{parentId}
+        WHERE id = #{id}
+    </update>
 
 </mapper>

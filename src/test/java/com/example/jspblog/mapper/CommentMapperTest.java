@@ -22,6 +22,21 @@ class CommentMapperTest {
     void selectListByePostId() {
         List<Comment> comments = commentMapper.selectListByePostId(74);
         comments.forEach(System.out::println);
+    }
 
+
+    @Test
+    void insert() {
+        Comment comment = Comment.builder()
+                .postId(74)
+                .memberId(1)
+                .content("댓글입니다.")
+                .build();
+        commentMapper.insert(comment);
+        if (comment.getParentId() == 0) {
+            comment.setParentId(comment.getId());
+            commentMapper.updateParentIdById(comment);
+        }
+        System.out.println("writedComment = " + comment);
     }
 }

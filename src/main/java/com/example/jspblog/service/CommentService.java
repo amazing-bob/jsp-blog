@@ -76,4 +76,19 @@ public class CommentService {
     private boolean isReplyComment(Comment cloneComment) {
         return cloneComment.getId() != cloneComment.getParentId();
     }
+
+    /**
+     * 댓글 DB에 저장
+     * @param comment
+     * @return
+     */
+    public Comment writeComment(Comment comment) {
+        commentMapper.insert(comment);
+        if (comment.getParentId() == 0) {
+            comment.setParentId(comment.getId());
+            commentMapper.updateParentIdById(comment);
+        }
+
+        return commentMapper.selectById(comment.getId());
+    }
 }

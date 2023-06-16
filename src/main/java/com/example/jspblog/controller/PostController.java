@@ -57,4 +57,7 @@ public class PostController {
 
         return "post/view";
     }
+
+
+
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="cfn" uri="http://com.example.jspblog.jsptag/tld/functions" %>
 
 <!-- 게시판 목록 html -->
 <!DOCTYPE html>
@@ -41,7 +42,6 @@
 
     <!-- Main -->
     <div id="main">
-
         <!-- Post -->
         <section class="post">
             <header class="major">
@@ -52,7 +52,11 @@
 
             <header>
                 <h2>${post.title}</h2>
-                <span class="byline">${post.writer.name} | ${post.created}</span>
+                <span class="byline">
+                    ${post.writer.name} |
+                    ${cfn:formatLocalDateTime(post.created, "MM.dd")}
+                </span>
+                <button type="button" name="modifyBtn" id="modifyBtn">수정</button>
             </header>
             <hr />
             <p style="white-space: pre-wrap">${post.content}</p>
@@ -64,21 +68,36 @@
             <h3>COMMENTS</h3>
             <div class="table-wrapper">
                 <table>
-                    <tbody>
+                    <tbody id="commentTbody">
                     <c:if test="${post.comments != null}">
                         <c:forEach var="comment" items="${post.comments}">
                             <tr>
-                                <td>${comment.id}</td>
-                                <td>${comment.content}</td>
-                                <td>${comment.created}</td>
-                                <td>${comment.writer.name}</td>
+                                <td>
+                                    <span>[${comment.id}] </span>
+                                    <span style="white-space: pre-wrap">${comment.content}</span>
+                                </td>
+                                <td>${cfn:formatLocalDateTime(comment.created, "MM.dd")}</td>
+                                <td>
+                                    <span>${comment.writer.name}</span>
+                                    <button name="toggleReplyBtn" class="small">댓글</button>
+                                </td>
+                            </tr>
+                            <tr class="reply-toggle" hidden="hidden">
+                                <input type="hidden" name="parentId" value="${comment.parentId}">
+                                <td colspan="2">
+                                    <textarea name="replyTextarea"></textarea>
+                                </td>
+                                <td><button name="submitReplyBtn" class="primary large">댓글</button></td>
                             </tr>
                             <c:if test="${comment.replyComments != null}">
                                 <c:forEach var="reply" items="${comment.replyComments}">
                                     <tr>
-                                        <td>${reply.id}</td>
-                                        <td><span style="margin-left: 40px;"><span>${reply.content}</td>
-                                        <td>${reply.created}</td>
+                                        <td>
+                                            <span>[${reply.id}] </span>
+                                            <span style="margin-left: 40px;"></span>
+                                            <span style="white-space: pre-wrap">${reply.content}</span>
+                                        </td>
+                                        <td>${cfn.formatLocalDateTime(reply.created, "MM.dd")}</td>
                                         <td>${reply.writer.name}</td>
                                     </tr>
                                 </c:forEach>
@@ -88,8 +107,8 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="3"><textarea id="commentTextarea"></textarea></td>
-                        <td><button id="submitCommnet" class="large">댓글</button></td>
+                        <td><textarea name="commentTextarea" id="commentTextarea"></textarea></td>
+                        <td><button name="submitCommnetBtn" id="submitCommnetBtn" class="large">댓글</button></td>
                     </tr>
                     </tfoot>
                 </table>
@@ -118,26 +137,84 @@
 
 <script>
     $(document).ready(function () {
-        $('#submitCommnet').click(function () {
-            var comment = $('#commentTextarea').val();
+        /**
+         * 게시글 수정
+         */
+        $('#modifyBtn').click(function() {
+            //TODO 로그인 체크 벨리데이션
+            location.href = '/posts/${post.id}/modify';
+        });
+
+        /**
+         * 댓글 등록
+         */
+        $('#submitCommnetBtn').click(function () {
+            var content = $('#commentTextarea').val();
             var data = {
-                content: comment,
                 postId: ${post.id},
-                memberId: ${memberId}
+                memberId: 1, //FIXME: 세션에서 가져오기
+                content: content
             };
             $.ajax({
                 type: 'POST',
-                url: '/api/comments',
-                dataType: 'json',
+                url: '/posts/${post.id}/comments',
                 contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
                 data: JSON.stringify(data)
-            }).done(function () {
+            }).done(function (data) {
                 alert('댓글이 등록되었습니다.');
-                window.location.reload();
+                //등록한 댓글 추가
+                $('#commentTbody').append('<tr><td>' + data.id + '</td><td>' + data.content + '</td><td>' + data.created + '</td><td>' + data.writer.name + '</td></tr>');
+                $('#commentTextarea').val('');
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
         });
+
+        /**
+         * 대댓글 Textarea show
+         */
+        $('button[name="toggleReplyBtn"]').click(function () {
+            if ($(this).text() == '취소') {
+                $(this).parent().parent().next('.reply-toggle').hide();
+                $(this).text('댓글');
+                $(this).removeClass('reply-show');
+            }else {
+                $(this).parent().parent().next('.reply-toggle').show();
+                $(this).parent().parent().next('.reply-toggle').children().children('textarea').val("");
+                $(this).text('취소');
+                $(this).addClass('reply-show');
+            }
+        });
+
+        /**
+         * 대댓글 등록
+         */
+        $('button[name="submitReplyBtn"]').click(function () {
+            var content = $(this).parent().parent().find('textarea[name="replyTextarea"]').val();
+            var parentId = $(this).parent().parent().find('input[name="parentId"]').val();
+            console.log(parentId);
+            var data = {
+                postId: ${post.id},
+                parentId: parentId,
+                memberId: 1, //FIXME: 세션에서 가져오기
+                content: content
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/posts/${post.id}/comments',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify(data)
+            }).done(function (data) {
+                alert('댓글이 등록되었습니다.');
+                //등록한 댓글 추가
+                location.reload();
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        });
+
     });
 </script>
 
