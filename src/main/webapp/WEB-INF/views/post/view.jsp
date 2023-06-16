@@ -163,9 +163,7 @@
                 data: JSON.stringify(data)
             }).done(function (data) {
                 alert('댓글이 등록되었습니다.');
-                //등록한 댓글 추가
-                $('#commentTbody').append('<tr><td>' + data.id + '</td><td>' + data.content + '</td><td>' + data.created + '</td><td>' + data.writer.name + '</td></tr>');
-                $('#commentTextarea').val('');
+                location.reload();
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });
