@@ -73,6 +73,12 @@ class CommentServiceTest {
 
     }
 
+
+    @Test
+    void deleteComment() {
+    }
+
+
     /**
      * 대댓글을 부모댓글에 List만들어 추가하고 원래 List에서 삭제
      * @param comments

@@ -15,4 +15,10 @@ public interface CommentMapper {
     void insert(Comment comment);
 
     void updateParentIdById(Comment comment);
+
+    void deleteById(long id);
+
+    void deleteByParentId(long parentId);
+
+    void deleteByPostId(long postId);
 }

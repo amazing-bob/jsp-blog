@@ -56,7 +56,8 @@
                     ${post.writer.name} |
                     ${cfn:formatLocalDateTime(post.created, "MM.dd")}
                 </span>
-                <button type="button" name="modifyBtn" id="modifyBtn">수정</button>
+                <button type="button" name="modifyBtn" id="modifyBtn" class="small">수정</button>
+                <button type="button" name="deletePostBtn" id="deletePostBtn" class="primary small">삭제</button>
             </header>
             <hr />
             <p style="white-space: pre-wrap">${post.content}</p>
@@ -72,6 +73,8 @@
                     <c:if test="${post.comments != null}">
                         <c:forEach var="comment" items="${post.comments}">
                             <tr>
+                                <input type="hidden" name="commentId" value="${comment.id}"/>
+                                <input type="hidden" name="parentId" value="${comment.parentId}"/>
                                 <td>
                                     <span>[${comment.id}] </span>
                                     <span style="white-space: pre-wrap">${comment.content}</span>
@@ -80,6 +83,7 @@
                                 <td>
                                     <span>${comment.writer.name}</span>
                                     <button name="toggleReplyBtn" class="small">댓글</button>
+                                    <button name="deleteCommentBtn" class="small">삭제</button>
                                 </td>
                             </tr>
                             <tr class="reply-toggle" hidden="hidden">
@@ -92,13 +96,18 @@
                             <c:if test="${comment.replyComments != null}">
                                 <c:forEach var="reply" items="${comment.replyComments}">
                                     <tr>
+                                        <input type="hidden" name="commentId" value="${reply.id}"/>
+                                        <input type="hidden" name="parentId" value="${reply.parentId}"/>
                                         <td>
                                             <span>[${reply.id}] </span>
                                             <span style="margin-left: 40px;"></span>
                                             <span style="white-space: pre-wrap">${reply.content}</span>
                                         </td>
                                         <td>${cfn.formatLocalDateTime(reply.created, "MM.dd")}</td>
-                                        <td>${reply.writer.name}</td>
+                                        <td>
+                                            <span>${reply.writer.name}</span>
+                                            <button name="deleteCommentBtn" class="small">삭제</button>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </c:if>
@@ -150,6 +159,14 @@
          */
         $('#submitCommnetBtn').click(function () {
             var content = $('#commentTextarea').val();
+            if (content == '') {
+                alert('내용을 입력해주세요.');
+                return false;
+            };
+            if (content == '') {
+                alert('내용을 입력해주세요.');
+                return false;
+            }
             var data = {
                 postId: ${post.id},
                 memberId: 1, //FIXME: 세션에서 가져오기
@@ -191,7 +208,10 @@
         $('button[name="submitReplyBtn"]').click(function () {
             var content = $(this).parent().parent().find('textarea[name="replyTextarea"]').val();
             var parentId = $(this).parent().parent().find('input[name="parentId"]').val();
-            console.log(parentId);
+            if (content == '') {
+                alert('내용을 입력해주세요.');
+                return false;
+            }
             var data = {
                 postId: ${post.id},
                 parentId: parentId,
@@ -208,6 +228,56 @@
                 alert('댓글이 등록되었습니다.');
                 //등록한 댓글 추가
                 location.reload();
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+        });
+
+        /**
+         * 댓글 대댓글 삭제
+         */
+        $('button[name=deleteCommentBtn]').click(function() {
+            if(!confirm("정말 댓글을 삭제하시겠습니까?"))
+                return false;
+            var commentId = $(this).parent().parent().find('input[name="commentId"]').val();
+            var parentId = $(this).parent().parent().find('input[name="parentId"]').val();
+            var data = {
+                id: commentId,
+                postId: ${post.id},
+                parentId: parentId
+            };
+            console.log(data);
+            $.ajax({
+                type: 'DELETE',
+                url: '/posts/${post.id}/comments/'+commentId,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify(data)
+            }).done(function (data) {
+                alert('삭제 완료');
+                location.reload();
+            }).fail(function (error) {
+                alert(JSON.stringify(error));
+            });
+
+        });
+
+        /**
+         * 게시글 삭제
+         */
+        $('#deletePostBtn').click(function(){
+            if(!confirm("정말 포스팅을 삭제하시겠습니까?"))
+                return false;
+            var data = {};
+            $.ajax({
+                type: 'DELETE',
+                url: '/posts/${post.id}',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify(data)
+            }).done(function (data) {
+                alert('삭제 완료');
+                location.href = '/posts';
             }).fail(function (error) {
                 alert(JSON.stringify(error));
             });

@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Controller
 @RequestMapping("/posts")
 @RequiredArgsConstructor
@@ -41,6 +44,25 @@ public class PostController {
     }
 
 
+    @GetMapping("/{id}")
+    public String view(@PathVariable long id, Model model) {
+        log.info("== PostController.view()  id : {}" + id);
+
+        model.addAttribute("post", postService.getPost(id));
+
+        return "post/view";
+    }
+
+    @GetMapping("/{postId}/modify")
+    public String modify(@PathVariable long postId, Model model) {
+        log.info("== PostController.modify()  postId : {}" + postId);
+
+        model.addAttribute("post", postService.getPost(postId));
+
+        return "post/writing";
+    }
+
+
     @PostMapping(value = "", produces = "application/json")
     @ResponseBody
     public ResponseEntity<Post> writePost(@RequestBody Post post) {
@@ -59,22 +81,20 @@ public class PostController {
         return ResponseEntity.ok().body(writedPost);
     }
 
-    @GetMapping("/{id}")
-    public String view(@PathVariable long id, Model model) {
-        log.info("== PostController.view()  id : {}" + id);
 
-        model.addAttribute("post", postService.getPost(id));
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public ResponseEntity<Map> deletePost(@PathVariable long id) {
+        log.info("== PostController.deletePost()  id : {}" + id);
 
-        return "post/view";
+        postService.deletePost(id);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("result", "success");
+
+        return ResponseEntity.ok().body(result);
     }
 
 
-    @GetMapping("/{postId}/modify")
-    public String modify(@PathVariable long postId, Model model) {
-        log.info("== PostController.modify()  postId : {}" + postId);
 
-        model.addAttribute("post", postService.getPost(postId));
-
-        return "post/writing";
-    }
 }

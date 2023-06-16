@@ -91,4 +91,26 @@ public class CommentService {
 
         return commentMapper.selectById(comment.getId());
     }
+
+
+    /**
+     * 댓글 삭제
+     * @param comment
+     * @return
+     */
+    public boolean deleteComment(Comment comment) {
+        if (comment.getId() == 0)
+            return false;
+
+        if (isRootComment(comment))
+            commentMapper.deleteByParentId(comment.getParentId());
+        else
+            commentMapper.deleteById(comment.getId());
+
+        return true;
+    }
+
+    private static boolean isRootComment(Comment comment) {
+        return comment.getId() == comment.getParentId();
+    }
 }

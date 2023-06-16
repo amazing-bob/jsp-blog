@@ -60,4 +60,9 @@
         WHERE id = #{id}
     </update>
 
+    <delete id="delete" parameterType="long">
+        DELETE FROM post
+        WHERE id = #{id}
+    </delete>
+
 </mapper>
