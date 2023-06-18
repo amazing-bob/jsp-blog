@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.jspblog.mapper.MemberMapper">
+
+    <insert id="insert" parameterType="com.example.jspblog.dto.Member" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        INSERT INTO member (name, email, password, created)
+        VALUES (#{name}, #{email}, #{password}, now() )
+    </insert>
+
+    <update id="update" parameterType="com.example.jspblog.dto.Member">
+UPDATE member
+        SET name = #{name},
+            email = #{email},
+            <if test="password != null">
+                password = #{password},
+            </if>
+            updated = now()
+        WHERE id = #{id}
+    </update>
+
+
+    <delete id="delete" parameterType="long">
+        DELETE
+        FROM member
+        WHERE id = #{id}
+    </delete>
+
+    <select id="select" parameterType="long" resultType="com.example.jspblog.dto.Member">
+        select *
+        from member
+        where id = #{id}
+    </select>
+
+
+</mapper>

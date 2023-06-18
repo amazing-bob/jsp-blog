@@ -29,11 +29,11 @@
             <li><a href="generic.html">Generic Page</a></li>
             <li class="active"><a href="elements.html">Elements Reference</a></li>
         </ul>
-        <ul class="icons">
-            <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-            <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-            <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-            <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+        <ul class="links">
+            <li><a href="/login">Login</a></li>
+            <li><a href="/members/register">SignUp</a></li>
+            <li><a href="#">Logout</a></li>
+            <li><a href="/members/5">김상헌</a></li>
         </ul>
     </nav>
 
@@ -69,7 +69,7 @@
                                 <td>${post.created}</td>
                                 <td>like:${post.likeCount} | 댓글: ${post.commentCount}</td>
                                 <td>
-                                    <button class="small">수정</button>
+                                    <button class="small primary">수정</button>
                                     <button class="small">삭제</button>
                                 </td>
                             </tr>
@@ -77,63 +77,32 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="2"></td>
-                        <td>100.00</td>
+                        <td colspan="7">
+                            <div class="pagination">
+                                <a href="#" class="previous">Prev</a>
+                                <a href="#" class="page active">1</a>
+                                <a href="#" class="page">2</a>
+                                <a href="#" class="page">3</a>
+                                <span class="extra">&hellip;</span>
+                                <a href="#" class="page">8</a>
+                                <a href="#" class="page">9</a>
+                                <a href="#" class="page">10</a>
+                                <a href="#" class="next">Next</a>
+                            </div>
+                        </td>
                     </tr>
                     </tfoot>
                 </table>
+                <!-- Footer -->
+                <footer>
+
+                </footer>
             </div>
         </section>
+
     </div>
 
-    <!-- Footer -->
-    <footer id="footer">
-        <section>
-            <form method="post" action="#">
-                <div class="fields">
-                    <div class="field">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" id="name" />
-                    </div>
-                    <div class="field">
-                        <label for="email">Email</label>
-                        <input type="text" name="email" id="email" />
-                    </div>
-                    <div class="field">
-                        <label for="message">Message</label>
-                        <textarea name="message" id="message" rows="3"></textarea>
-                    </div>
-                </div>
-                <ul class="actions">
-                    <li><input type="submit" value="Send Message" /></li>
-                </ul>
-            </form>
-        </section>
-        <section class="split contact">
-            <section class="alt">
-                <h3>Address</h3>
-                <p>1234 Somewhere Road #87257<br />
-                    Nashville, TN 00000-0000</p>
-            </section>
-            <section>
-                <h3>Phone</h3>
-                <p><a href="#">(000) 000-0000</a></p>
-            </section>
-            <section>
-                <h3>Email</h3>
-                <p><a href="#">info@untitled.tld</a></p>
-            </section>
-            <section>
-                <h3>Social</h3>
-                <ul class="icons alt">
-                    <li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
-                    <li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
-                    <li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-                    <li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-                </ul>
-            </section>
-        </section>
-    </footer>
+
 
     <!-- Copyright -->
     <div id="copyright">
