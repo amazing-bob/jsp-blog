@@ -21,6 +21,13 @@ UPDATE member
         WHERE id = #{id}
     </update>
 
+    <select id="authorizeMember" parameterType="com.example.jspblog.dto.Member" resultType="com.example.jspblog.dto.Member">
+        SELECT *
+        FROM member
+        WHERE email = #{email} AND password = #{password}
+        AND deleted != null;
+    </select>
+
 
     <delete id="delete" parameterType="long">
         DELETE
